@@ -2,6 +2,7 @@ package com.example.project_login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -59,6 +60,7 @@ public class SelectPhone extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(),"Price: "+(priceBar.getProgress()*1000)+" Name:"+spinnerPhoneSelect.getSelectedItem(),Toast.LENGTH_LONG).show();
+                startActivity(new Intent(getApplicationContext(),ListView.class));
             }
         });
     }
