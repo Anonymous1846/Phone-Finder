@@ -36,6 +36,7 @@ public class SelectPhone extends AppCompatActivity {
         textView=findViewById(R.id.price);
         //Progress bar To setting The price range in The Order of The 1000s
         priceBar=findViewById(R.id.priceBar);
+        priceBar.setProgress(8);
         priceBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

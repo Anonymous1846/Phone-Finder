@@ -1,6 +1,7 @@
 package com.example.project_login;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -32,9 +35,21 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder holder, int position) {
-            Phone phone=phones.get(position);
-            holder.name.setText(phone.getPhoneName());
-            holder.price.setText(phone.getPrice());
+            final Phone phone=phones.get(position);
+            holder.name.setText(phone.getMake()+" "+phone.getPhoneName());
+            holder.price.setText(phone.getPrice()+"");
+            Picasso.get().load(phone.imageUrl).into(holder.phoneImage);
+            holder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context,PhoneDetails.class);
+                    intent.putExtra("link",phone.getBuy_link());
+                    intent.putExtra("rating",phone.getRating());
+                    intent.putExtra("img",phone.getImageUrl());
+                    intent.putExtra("name",phone.getMake()+" "+phone.getPhoneName());
+                    context.startActivity(intent);
+                }
+            });
     }
 
     @Override
