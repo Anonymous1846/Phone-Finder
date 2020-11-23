@@ -51,8 +51,8 @@ public class ListView extends AppCompatActivity {
     private void addToList(){
         Cursor cursor=phoneDatabase.selectAllPhones();
         while (cursor.moveToNext()){
-            phones.add(new Phone(cursor.getString(0)+"",cursor.getString(1)+"",cursor.getString(2)+"",233.99,cursor.getColumnName(4)+"",cursor.getString(5)+"",cursor.getString(6)+"",cursor.getString(7)+""));
+            phones.add(new Phone(cursor.getString(0)+"",cursor.getString(1)+"",cursor.getString(2)+"",233.99,cursor.getString(4)+"",cursor.getString(5)+"",cursor.getString(6)+"",cursor.getString(7)+""));
             Log.d("buy",cursor.getString(4));
         }
     }
-}
+  }
