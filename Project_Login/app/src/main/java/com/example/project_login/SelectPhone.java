@@ -53,15 +53,19 @@ public class SelectPhone extends AppCompatActivity {
 
             }
         });
-        phones=new String[]{"Samsung","Oppo","Vivo","Asus","Xiaomi"};
+        phones=new String[]{"Samsung","Oppo","Vivo","One Plus","Redmi","Show All"};
         //Initailisign The ArrayAdapter
         arrayAdapterForPhones=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,phones);
         spinnerPhoneSelect.setAdapter(arrayAdapterForPhones);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Price: "+(priceBar.getProgress()*1000)+" Name:"+spinnerPhoneSelect.getSelectedItem(),Toast.LENGTH_LONG).show();
-                startActivity(new Intent(getApplicationContext(),ListView.class));
+                double val=priceBar.getProgress()*1000.0;
+                //Toast.makeText(getApplicationContext(),"Price: "+(priceBar.getProgress()*1000)+" Name:"+spinnerPhoneSelect.getSelectedItem(),Toast.LENGTH_LONG).show();
+                Intent intent=new Intent(SelectPhone.this,ListView.class);
+                intent.putExtra("make",spinnerPhoneSelect.getSelectedItem().toString());
+                intent.putExtra("price",val);
+                    startActivity(intent);
             }
         });
     }

@@ -1,10 +1,13 @@
 package com.example.project_login;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView textView;
     Boolean savedLogin;
     CheckBox rememberMe;
+    InternetConnectivityCheck internetConnectivityCheck;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         username=findViewById(R.id.userLog);
         textView=findViewById(R.id.signPrompt);
         rememberMe=findViewById(R.id.rememberMe);
+        internetConnectivityCheck=new InternetConnectivityCheck(this);
         sharedPreferences=getSharedPreferences("loginRef",MODE_PRIVATE);
         sharedPreferencesEditor=sharedPreferences.edit();
         textView.setOnClickListener(new View.OnClickListener() {
@@ -44,7 +49,30 @@ public class LoginActivity extends AppCompatActivity {
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                if(internetConnectivityCheck.checkConn()){
+                    login();
+                }
+                else{
+                    AlertDialog.Builder networkAlertBuilder= new AlertDialog.Builder(LoginActivity.this);
+                    networkAlertBuilder.setTitle("No Network")
+                            .setMessage("Check Network Connectivty !")
+                            .setPositiveButton("Network Settings", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(new Intent(getApplicationContext(),LoginActivity.class));
+                                    finish();
+                                }
+                            });
+                    AlertDialog alertDialog=networkAlertBuilder.create();
+                    alertDialog.show();
+                }
+
             }
         });
         savedLogin=sharedPreferences.getBoolean("saveLogin",true);

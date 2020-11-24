@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -61,14 +62,23 @@ public class PhoneDatabase extends SQLiteOpenHelper {
         contentValues.put(ROM,rom);
         long result=sqLiteDatabase.insert(TABLE,null,contentValues);
         if(result!=-1){
-            Toast.makeText(context,"Added!",Toast.LENGTH_LONG).show();
+            Log.d("Success DB","Adding Phones To Db Success !");
         }
         else {
-            Toast.makeText(context,"Failed !",Toast.LENGTH_LONG).show();
+            Log.d("Failed DB","Adding Phones To Db Failed !");
         }
     }
     Cursor selectAllPhones(){
         String sql="SELECT * FROM "+TABLE;
+        SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
+        Cursor cursor=null;
+        if(sqLiteDatabase!=null){
+            cursor=sqLiteDatabase.rawQuery(sql,null);
+        }
+        return  cursor;
+    }
+    Cursor selectAllPhonesByNamePrice(String make,double price){
+        String sql="SELECT * FROM "+TABLE+" WHERE "+PHONE_MAKE+" ='"+make+"' AND "+PHONE_PRICE+" <"+price+";";
         SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
         Cursor cursor=null;
         if(sqLiteDatabase!=null){
