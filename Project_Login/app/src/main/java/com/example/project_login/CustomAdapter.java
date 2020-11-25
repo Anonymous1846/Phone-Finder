@@ -2,6 +2,7 @@ package com.example.project_login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,19 +35,22 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder holder, int position) {
-            final Phone phone=phones.get(position);
-            holder.name.setText(phone.getMake()+" "+phone.getPhoneName());
-            holder.price.setText(phone.getPrice()+"");
-            Picasso.get().load(phone.imageUrl).into(holder.phoneImage);
+    public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder holder, final int position) {
+
+            holder.name.setText(phones.get(position).getMake()+" "+phones.get(position).getPhoneName());
+            holder.price.setText(phones.get(position).getPrice()+"");
+        Log.d("priceShow",phones.get(position).getPrice()+"");
+            Picasso.get().load(phones.get(position).getImageUrl()).into(holder.phoneImage);
             holder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    int i=position;
                     Intent intent=new Intent(context,PhoneDetails.class);
-                    intent.putExtra("link",phone.getBuy_link());
-                    intent.putExtra("rating",phone.getRating());
-                    intent.putExtra("img",phone.getImageUrl());
-                    intent.putExtra("name",phone.getMake()+" "+phone.getPhoneName());
+                    intent.putExtra("name",phones.get(i).getMake()+" "+phones.get(i).getPhoneName());
+                    intent.putExtra("rating",phones.get(i).getRating());
+                    intent.putExtra("img",phones.get(i).getImageUrl());
+                    intent.putExtra("specs",phones.get(i).getRom()+"\n\n"+phones.get(i).getRam());
+                    intent.putExtra("link",phones.get(i).getBuy_link());
                     context.startActivity(intent);
                 }
             });

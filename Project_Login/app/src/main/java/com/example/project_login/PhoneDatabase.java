@@ -68,6 +68,15 @@ public class PhoneDatabase extends SQLiteOpenHelper {
             Log.d("Failed DB","Adding Phones To Db Failed !");
         }
     }
+    Cursor selectAllPhones(double price){
+        String sql="SELECT * FROM "+TABLE+" WHERE "+PHONE_PRICE+" <"+price+" ORDER BY "+PHONE_PRICE+" ASC";
+        SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
+        Cursor cursor=null;
+        if(sqLiteDatabase!=null){
+            cursor=sqLiteDatabase.rawQuery(sql,null);
+        }
+        return  cursor;
+    }
     Cursor selectAllPhones(){
         String sql="SELECT * FROM "+TABLE;
         SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
