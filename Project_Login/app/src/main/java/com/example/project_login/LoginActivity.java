@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
         pass=findViewById(R.id.passLog);
         username=findViewById(R.id.userLog);
         textView=findViewById(R.id.signPrompt);
-        rememberMe=findViewById(R.id.rememberMe);
+        rememberMe=findViewById(R.id.rememberme);
         internetConnectivityCheck=new InternetConnectivityCheck(this);
         sharedPreferences=getSharedPreferences("loginRef",MODE_PRIVATE);
         sharedPreferencesEditor=sharedPreferences.edit();

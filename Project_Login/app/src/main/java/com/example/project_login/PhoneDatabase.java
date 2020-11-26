@@ -119,4 +119,16 @@ public class PhoneDatabase extends SQLiteOpenHelper {
         //In the checking function, the cursor is checked whether it has a next row !
         return  cursor;
     }
+    Cursor selectAllPhonesByNamePriceAndRAM(String make,double price,String rom){
+        //The Sql query for phone retrieval
+        String sql="SELECT * FROM "+TABLE+" WHERE "+PHONE_MAKE+" ='"+make+"' AND "+ROM+"='"+rom+"' AND "+PHONE_PRICE+" <"+price+";";
+        SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
+        Cursor cursor=null;
+
+        if(sqLiteDatabase!=null){
+            cursor=sqLiteDatabase.rawQuery(sql,null);
+        }
+        //In the checking function, the cursor is checked whether it has a next row !
+        return  cursor;
+    }
 }

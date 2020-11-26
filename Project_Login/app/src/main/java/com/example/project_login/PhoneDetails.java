@@ -25,7 +25,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 public class PhoneDetails extends AppCompatActivity {
-    TextView specs,name,price;
+    TextView specs,name;
     RatingBar ratingBar;
     ImageView imageView;
     Button button;
@@ -38,10 +38,10 @@ public class PhoneDetails extends AppCompatActivity {
         setContentView(R.layout.activity_phone_details);
         ratingBar = findViewById(R.id.ratingBar);
         imageView = findViewById(R.id.phoneDetailsImage);
-        name = findViewById(R.id.phoneDetailsPrice);
+        name = findViewById(R.id.phoneDetailsName);
         registerForContextMenu(imageView);
-        price = findViewById(R.id.phoneDetailsPrice);
-        specs = findViewById(R.id.url);
+        specs = findViewById(R.id.phoneDetailsPrice);
+
         button = findViewById(R.id.buyBtn);
         if (getIntent() != null) {
             buyLink=getIntent().getStringExtra("link");

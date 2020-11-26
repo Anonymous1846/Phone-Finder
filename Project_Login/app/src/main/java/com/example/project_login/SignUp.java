@@ -13,11 +13,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+
 public class SignUp extends AppCompatActivity {
     EditText password,username,email;
     Button sign;
-    TextView log;
+    TextView log,dateView;
     InternetConnectivityCheck internetConnectivityCheck;
+    Date date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,9 @@ public class SignUp extends AppCompatActivity {
         username=findViewById(R.id.username);
         sign=findViewById(R.id.SignBtn);
         log=findViewById(R.id.logIntent);
+        dateView=findViewById(R.id.text_view_date);
+        date=new Date();
+       dateView.setText(date.toString());
         internetConnectivityCheck=new InternetConnectivityCheck(this);
         log.setOnClickListener(new View.OnClickListener() {
             @Override

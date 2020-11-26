@@ -47,7 +47,7 @@ public class ListView extends AppCompatActivity {
                 addToList(getIntent().getDoubleExtra("price",1000.9));
             }
             else {
-                Cursor cursor = phoneDatabase.selectAllPhonesByNamePrice(getIntent().getStringExtra("make"), getIntent().getDoubleExtra("price", 10000.0));
+                Cursor cursor = phoneDatabase.selectAllPhonesByNamePriceAndRAM(getIntent().getStringExtra("make"), getIntent().getDoubleExtra("price", 10000.0),getIntent().getStringExtra("ram"));
                 while (cursor.moveToNext()) {
                     phones.add(new Phone(cursor.getString(0) + "", cursor.getString(1) + "", cursor.getString(2) + "", cursor.getDouble(3), cursor.getString(4) + "", cursor.getString(5) + "", cursor.getString(6) + "", cursor.getString(7) + "",cursor.getString(8),cursor.getString(9)));
                 }
