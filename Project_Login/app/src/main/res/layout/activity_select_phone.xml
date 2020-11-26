@@ -26,7 +26,8 @@
         app:layout_constraintHorizontal_bias="0.666"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phoneSpinner"
-        app:layout_constraintVertical_bias="0.057" />
+        app:layout_constraintVertical_bias="0.057"
+        android:progress="8"/>
 
     <Button
         android:id="@+id/button"
@@ -50,5 +51,95 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/priceBar"
         app:layout_constraintVertical_bias="0.077" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupRam"
+        android:layout_width="405dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/price"
+        app:layout_constraintVertical_bias="0.578"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/three"
+            android:layout_width="85dp"
+            android:layout_height="match_parent"
+            android:text="3GB" />
+
+        <RadioButton
+            android:id="@+id/four"
+            android:layout_width="85dp"
+            android:layout_height="match_parent"
+            android:text="4GB" />
+
+        <RadioButton
+            android:id="@+id/six"
+            android:layout_width="85dp"
+            android:layout_height="match_parent"
+            android:text="6GB" />
+
+        <RadioButton
+            android:id="@+id/eight"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:text="8GB" />
+
+        <RadioButton
+            android:id="@+id/twel"
+            android:layout_width="81dp"
+            android:layout_height="match_parent"
+            android:text="12GB" />
+
+
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="32GB"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupRam"
+        app:layout_constraintVertical_bias="0.107" />
+
+    <CheckBox
+        android:id="@+id/checkBox2"
+        android:layout_width="85dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="80dp"
+        android:text="64GB"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.121"
+        app:layout_constraintStart_toEndOf="@+id/checkBox"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupRam"
+        app:layout_constraintVertical_bias="0.964" />
+
+    <CheckBox
+        android:id="@+id/checkBox3"
+        android:layout_width="108dp"
+        android:layout_height="31dp"
+        android:layout_marginBottom="78dp"
+        android:text="128GB"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.242"
+        app:layout_constraintStart_toEndOf="@+id/checkBox2"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupRam"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="256GB"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

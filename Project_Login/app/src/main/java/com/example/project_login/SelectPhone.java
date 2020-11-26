@@ -1,17 +1,14 @@
 package com.example.project_login;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 public class SelectPhone extends AppCompatActivity {
     Spinner spinnerPhoneSelect;
@@ -20,7 +17,7 @@ public class SelectPhone extends AppCompatActivity {
     ArrayAdapter<String>arrayAdapterForPhones;
     String []phones;
     TextView textView;
-    //Reuqired Paramters
+    //Required Parameters
     String phoneName;
     double price;
     //Optional Parameters
@@ -33,14 +30,18 @@ public class SelectPhone extends AppCompatActivity {
         spinnerPhoneSelect=findViewById(R.id.phoneSpinner);
         //button to test and search !
         button=findViewById(R.id.button);
+        //TextView To Show The Change In The Price On The Spot
         textView=findViewById(R.id.price);
         //Progress bar To setting The price range in The Order of The 1000s
         priceBar=findViewById(R.id.priceBar);
+        //Setting The Progres Value Initially To 8 So That Resulting Price Will Be 1000.00 x 8,000 Rs
         priceBar.setProgress(8);
+
         priceBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            //Change in Progress Value  Will Be Reflected on the Spot !
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                textView.setText(priceBar.getProgress()*1000+"");
+                textView.setText(Double.toString(1000.00*priceBar.getProgress()));
             }
             //Dead Methods
             @Override
@@ -60,11 +61,12 @@ public class SelectPhone extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double val=priceBar.getProgress()*1000.0;
+                price=1000*priceBar.getProgress();
                 //Toast.makeText(getApplicationContext(),"Price: "+(priceBar.getProgress()*1000)+" Name:"+spinnerPhoneSelect.getSelectedItem(),Toast.LENGTH_LONG).show();
                 Intent intent=new Intent(SelectPhone.this,ListView.class);
+                //Passing The Intend Values to The PhoneDetails Class so that We Can Use the Phone make and price Information to Segregate The Dat from the Database !
                 intent.putExtra("make",spinnerPhoneSelect.getSelectedItem().toString());
-                intent.putExtra("price",val);
+                intent.putExtra("price",price);
                     startActivity(intent);
             }
         });
