@@ -2,6 +2,9 @@ package com.example.project_login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ShareActionProvider;
+import androidx.core.view.MenuItemCompat;
+
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,10 +14,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +29,8 @@ public class PhoneDetails extends AppCompatActivity {
     RatingBar ratingBar;
     ImageView imageView;
     Button button;
+    String buyLink;
+    ShareActionProvider shareActionProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,7 @@ public class PhoneDetails extends AppCompatActivity {
         specs = findViewById(R.id.url);
         button = findViewById(R.id.buyBtn);
         if (getIntent() != null) {
+            buyLink=getIntent().getStringExtra("link");
             specs.setText(getIntent().getStringExtra("specs"));
             ratingBar.setRating(Float.parseFloat(getIntent().getStringExtra("rating")));
             Picasso.get().load(getIntent().getStringExtra("img")).into(imageView);
@@ -46,7 +53,7 @@ public class PhoneDetails extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    goToLink(getIntent().getStringExtra("link"));
+                    goToLink(buyLink);
                 }
             });
         }
@@ -85,20 +92,24 @@ public class PhoneDetails extends AppCompatActivity {
         i.setData(Uri.parse(url));
         startActivity(i);
     }
-
+    //Options Menu With the Sharing Feature Which can Share The Link of The Phone !
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater=getMenuInflater();
         menuInflater.inflate(R.menu.menubar_menu,menu);
+        MenuItem shareItem = menu.findItem(R.id.share);
+        shareActionProvider=(ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        Intent intentShareLink = new Intent(Intent.ACTION_SEND);
+        intentShareLink.setType("text/plain ");
+        intentShareLink.putExtra(Intent.ACTION_PROCESS_TEXT,"Buy The Latest Samrtphone "+buyLink+" Exclusively From Phonespot and Get 35% Off");
+        shareActionProvider.setShareIntent(intentShareLink);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.share:
-                Toast.makeText(getApplicationContext(),"lkdf",Toast.LENGTH_LONG).show();
-                return true;
+
             case R.id.profile:
                 Toast.makeText(getApplicationContext(),"Profile",Toast.LENGTH_LONG).show();
                 return true;

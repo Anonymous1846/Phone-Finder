@@ -49,7 +49,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     intent.putExtra("name",phones.get(i).getMake()+" "+phones.get(i).getPhoneName());
                     intent.putExtra("rating",phones.get(i).getRating());
                     intent.putExtra("img",phones.get(i).getImageUrl());
-                    intent.putExtra("specs",phones.get(i).getRom()+"\n\n"+phones.get(i).getRam());
+                    intent.putExtra("specs","ROM: "+phones.get(i).getRom()+"\n\nRAM: "+phones.get(i).getRam()+"\n\nProcessor: "+phones.get(i).getProcessor()+"\n\nBattery: "+phones.get(i).getBattery());
                     intent.putExtra("link",phones.get(i).getBuy_link());
                     context.startActivity(intent);
                 }
