@@ -2,16 +2,15 @@ package com.example.project_login;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class SelectPhone extends AppCompatActivity {
@@ -21,24 +20,36 @@ public class SelectPhone extends AppCompatActivity {
     ArrayAdapter<String>arrayAdapterForPhones;
     String []phones;
     TextView textView;
-    CheckBox three,four,six,eight,twel;
-    RadioGroup radioGroup;
-    RadioButton getSelectedRAM;
+
+    RadioGroup romRadioGroup,ramRadioGroup;
+    //RadioButton Parameters For Internal Storage
+    RadioButton threeTwo,sixFour,twentyEight,twoSix;
+    //RadioButton Parameters For RAM
+    RadioButton three,four,six,eight,twel;
     double price;
-    String selectRamMessageFlag="";
-    //Optional Parameters
+    String selectRam=null;
+    String selectedRom=null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_phone);
-        radioGroup=findViewById(R.id.radioGroup);
+        romRadioGroup =findViewById(R.id.radioGroup);
+        ramRadioGroup=findViewById(R.id.radioGroupRAm);
 
-        three=findViewById(R.id.three);
-        four=findViewById(R.id.four);
-        six=findViewById(R.id.six);
-        eight=findViewById(R.id.eight);
-        twel=findViewById(R.id.twel);
+        //Radio Buttons are Being Hooked Up
+        threeTwo=findViewById(R.id.radioButton);
+        sixFour=findViewById(R.id.radioButton2);
+        twentyEight=findViewById(R.id.radioButton3);
+        twoSix=findViewById(R.id.radioButton4);
+        //Hooking Up The RAM Radio Buttons
+        three=findViewById(R.id.threeGb);
+        four=findViewById(R.id.fourGb);
+        six=findViewById(R.id.sixGB);
+        eight=findViewById(R.id.eightGb);
+        twel=findViewById(R.id.twelGB);
+        //End of RAM
         //Setting the Spinner to Display The Phone Names
         spinnerPhoneSelect=findViewById(R.id.phoneSpinner);
         //button to test and search !
@@ -75,32 +86,49 @@ public class SelectPhone extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(three.isChecked()){
-                    selectRamMessageFlag+="1";
-                }
-                if (four.isChecked()){
-                    selectRamMessageFlag+="2";
-                }
-                if(six.isChecked()){
-                    selectRamMessageFlag+="3";
-                }
-                if (eight.isChecked()){
-                    selectRamMessageFlag+="4";
-                }
-                if (twel.isChecked()){
-                    selectRamMessageFlag+="5";
-                }
+
                 price=1000*priceBar.getProgress();
-                getSelectedRAM=findViewById(radioGroup.getCheckedRadioButtonId());
-                Toast.makeText(getApplicationContext(),getSelectedRAM.getText().toString(), Toast.LENGTH_LONG).show();
-                selectRamMessageFlag="";
+///////////////////Events For The Radio Button That Will Determine the Change in ROM////////////////////////
+                        if(threeTwo.isChecked()){
+                            selectedRom=threeTwo.getText().toString();
+                        }
+                        else if(sixFour.isChecked()){
+                            selectedRom=sixFour.getText().toString();
+                        }
+                        else if(twentyEight.isChecked()){
+                            selectedRom=twentyEight.getText().toString();
+                        }
+                        else  if(twoSix.isChecked()){
+                            selectedRom=twoSix.getText().toString();
+                        }
+
+///////////////////Events For The Radio Button That Will Determine the Change in RAM////////////////////////
+                        if(three.isChecked()){
+                            selectRam=three.getText().toString();
+                        }
+                        else if(four.isChecked()){
+                            selectRam=four.getText().toString();
+                        }
+                        else if(eight.isChecked()){
+                            selectRam=eight.getText().toString();
+                        }
+                        else if(six.isChecked()){
+                            selectRam=six.getText().toString();
+                        }
+                        else if(twel.isChecked()){
+                            selectRam=twel.getText().toString();
+                        }
 
                 Intent intent=new Intent(SelectPhone.this,ListView.class);
                 //Passing The Intend Values to The PhoneDetails Class so that We Can Use the Phone make and price Information to Segregate The Dat from the Database !
                 intent.putExtra("make",spinnerPhoneSelect.getSelectedItem().toString());
                 intent.putExtra("price",price);
-                intent.putExtra("ram",getSelectedRAM.getText().toString());
+                intent.putExtra("ram",selectRam);
+                intent.putExtra("rom",selectedRom);
+                Log.d("rom","Rom Selected is"+selectedRom);
+                Log.d("ramSe","Ram Selected is"+selectRam);
                     startActivity(intent);
+
             }
         });
     }

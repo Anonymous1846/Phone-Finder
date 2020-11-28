@@ -5,19 +5,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 //
@@ -42,14 +33,55 @@ public class ListView extends AppCompatActivity {
         }
 
         //addToList();
+        //First of All We Check The Intend is Null Or Not !
         if(getIntent()!=null){
-            if(getIntent().getStringExtra("make").equals("Show All")){
-                addToList(getIntent().getDoubleExtra("price",1000.9));
+            //Then it Checks Whether The Intent Contains the Rom and Ram Inforamtion,if They Both are Null We Can show The Phones Based on The Price(Show All) or On The Basis is name and Price
+            if(getIntent().getStringExtra("rom")==null && getIntent().getStringExtra("ram")==null){
+                //Show All Price
+                if(getIntent().getStringExtra("make").equals("Show All")){
+                    addToListShowAll(getIntent().getDoubleExtra("price",10000.99));
+                }
+                //Based on The name and price
+                else {
+                    addToListBasedOnName(getIntent().getStringExtra("make"),getIntent().getDoubleExtra("price",10000.99));
+                }
             }
-            else {
-                Cursor cursor = phoneDatabase.selectAllPhonesByNamePriceAndRAM(getIntent().getStringExtra("make"), getIntent().getDoubleExtra("price", 10000.0),getIntent().getStringExtra("ram"));
-                while (cursor.moveToNext()) {
-                    phones.add(new Phone(cursor.getString(0) + "", cursor.getString(1) + "", cursor.getString(2) + "", cursor.getDouble(3), cursor.getString(4) + "", cursor.getString(5) + "", cursor.getString(6) + "", cursor.getString(7) + "",cursor.getString(8),cursor.getString(9)));
+            //Checking The Condition Where the Rom is Given While is Ram is Not !
+            else if(getIntent().getStringExtra("rom")!=null && getIntent().getStringExtra("ram")==null){
+                //Show All Price
+                if(getIntent().getStringExtra("make").equals("Show All")){
+                    addToListShowAllPriceAndRom(getIntent().getDoubleExtra("price",10000.99),getIntent().getStringExtra("rom"));
+
+                }
+                //Based on The name,price and rom
+                else {
+                    addToListNamePriceAndRom(getIntent().getStringExtra("make"),getIntent().getDoubleExtra("price",10000.99),getIntent().getStringExtra("rom"));
+                }
+            }
+            //Checking The Condition Where the Ram is Given While is Rom is Not !
+            else if(getIntent().getStringExtra("rom")==null && getIntent().getStringExtra("ram")!=null){
+                //Show All Price
+                if(getIntent().getStringExtra("make").equals("Show All")){
+                    addToListShowAllPriceAndRam(getIntent().getDoubleExtra("price",10000.99),getIntent().getStringExtra("ram"));
+
+                }
+                //Based on The name,price and ram
+                else {
+                    addToListShowAllANamePriceAndRam(getIntent().getStringExtra("make"),getIntent().getDoubleExtra("price",10000.99),getIntent().getStringExtra("ram"));
+                }
+            }
+            //Checking The Condition Where both RAM and ROM are Given !
+            else if(getIntent().getStringExtra("rom")!=null && getIntent().getStringExtra("ram")!=null){
+                //Show All Price
+                if(getIntent().getStringExtra("make").equals("Show All")){
+                    //Adding all The Phones to The ArrayList based on Price range,ram and the Rom
+                    addToListShowAllPriceRomAndRam(getIntent().getDoubleExtra("price",10000.99),getIntent().getStringExtra("rom"),getIntent().getStringExtra("ram"));
+
+                }
+                //Based on The name,price and ram
+                else {
+                    //Adding The Phones to The ArrayList based on The Make,Price range,ram and the Rom
+                    addToListShowAllANamePriceAndRomAndRam(getIntent().getStringExtra("make"),getIntent().getDoubleExtra("price",10000.99),getIntent().getStringExtra("rom"),getIntent().getStringExtra("ram"));
                 }
             }
         }
@@ -60,13 +92,69 @@ public class ListView extends AppCompatActivity {
 
 
     }
-    private void addToList(double price){
+    //Adding all the Phones to teh ArraysList Based on the price,ram and rom
+    private void addToListShowAllPriceRomAndRam(double price, String ram, String rom) {
+        Cursor cursor=phoneDatabase.selectAllPhonesPriceRamRom(price,ram,rom);
+        while (cursor.moveToNext()){
+            phones.add(new Phone(cursor.getString(0)+"",cursor.getString(1)+"",cursor.getString(2)+"",cursor.getDouble(3),cursor.getString(4)+"",cursor.getString(5)+"",cursor.getString(6)+"",cursor.getString(7)+"",cursor.getString(8),cursor.getString(9)));
+            Log.d("buy",cursor.getString(4));
+        }
+    }
+    //Adding all the Phones to teh ArraysList Based on the price
+    private void addToListShowAll(double price){
         Cursor cursor=phoneDatabase.selectAllPhones(price);
         while (cursor.moveToNext()){
             phones.add(new Phone(cursor.getString(0)+"",cursor.getString(1)+"",cursor.getString(2)+"",cursor.getDouble(3),cursor.getString(4)+"",cursor.getString(5)+"",cursor.getString(6)+"",cursor.getString(7)+"",cursor.getString(8),cursor.getString(9)));
             Log.d("buy",cursor.getString(4));
         }
     }
+    //Adding all the Phones to the ArraysList Based on the price and rom
+    private void addToListShowAllPriceAndRom(double price,String rom){
+        Cursor cursor=phoneDatabase.selectAllPhones(price,rom);
+        while (cursor.moveToNext()){
+            phones.add(new Phone(cursor.getString(0)+"",cursor.getString(1)+"",cursor.getString(2)+"",cursor.getDouble(3),cursor.getString(4)+"",cursor.getString(5)+"",cursor.getString(6)+"",cursor.getString(7)+"",cursor.getString(8),cursor.getString(9)));
+            Log.d("buy",cursor.getString(4));
+        }
+    }
+    //Adding all the Phones to the ArraysList Based on the name and price
+    private void addToListBasedOnName(String name, double price){
+        Cursor cursor = phoneDatabase.selectAllPhonesByNamePrice(name, price);
+        while (cursor.moveToNext()) {
+            phones.add(new Phone(cursor.getString(0) + "", cursor.getString(1) + "", cursor.getString(2) + "", cursor.getDouble(3), cursor.getString(4) + "", cursor.getString(5) + "", cursor.getString(6) + "", cursor.getString(7) + "",cursor.getString(8),cursor.getString(9)));
+        }
+    }
+    //Adding all the Phones to teh ArraysList Based on the price,name and rom
+    private void addToListNamePriceAndRom(String name, double price, String rom){
+        Cursor cursor = phoneDatabase.selectAllPhonesByNamePriceAndROM(name, price,rom);
+        while (cursor.moveToNext()) {
+            phones.add(new Phone(cursor.getString(0) + "", cursor.getString(1) + "", cursor.getString(2) + "", cursor.getDouble(3), cursor.getString(4) + "", cursor.getString(5) + "", cursor.getString(6) + "", cursor.getString(7) + "",cursor.getString(8),cursor.getString(9)));
+        }
+    }
+    //Adding all the Phones to teh ArraysList Based on the price,ram and rom and make
+    private void addToListShowAllANamePriceAndRomAndRam(String name,double price,String rom,String ram){
+        Cursor cursor=phoneDatabase.selectAllPhonesByNamePriceROMAndRAM(name,price,rom,ram);
+        while (cursor.moveToNext()){
+            phones.add(new Phone(cursor.getString(0)+"",cursor.getString(1)+"",cursor.getString(2)+"",cursor.getDouble(3),cursor.getString(4)+"",cursor.getString(5)+"",cursor.getString(6)+"",cursor.getString(7)+"",cursor.getString(8),cursor.getString(9)));
+            Log.d("buy",cursor.getString(4));
+        }
+    }
+    //Adding to The ArraysList Based on the name,price and ram
+    private void addToListShowAllANamePriceAndRam(String name,double price,String ram){
+        Cursor cursor=phoneDatabase.selectAllPhonesByNamePriceAndRAM(name,price,ram);
+        while (cursor.moveToNext()){
+            phones.add(new Phone(cursor.getString(0)+"",cursor.getString(1)+"",cursor.getString(2)+"",cursor.getDouble(3),cursor.getString(4)+"",cursor.getString(5)+"",cursor.getString(6)+"",cursor.getString(7)+"",cursor.getString(8),cursor.getString(9)));
+            Log.d("buy",cursor.getString(4));
+        }
+    }
+    //Based in Ram and The price range only
+    private void addToListShowAllPriceAndRam(double price,String ram){
+        Cursor cursor=phoneDatabase.selectAllPhonesByPriceAndRAM(price,ram);
+        while (cursor.moveToNext()){
+            phones.add(new Phone(cursor.getString(0)+"",cursor.getString(1)+"",cursor.getString(2)+"",cursor.getDouble(3),cursor.getString(4)+"",cursor.getString(5)+"",cursor.getString(6)+"",cursor.getString(7)+"",cursor.getString(8),cursor.getString(9)));
+            Log.d("buy",cursor.getString(4));
+        }
+    }
+    //Adding all The phones, independent of the Brand and specs
     void addPhonesToDB(){
         //Samsung Phones
         phoneDatabase.addPhoneInfo("Samsung","Galaxy A10s","https://m.media-amazon.com/images/I/81e6XvJzKgL._AC_UY218_.jpg",10489.00,"https://www.amazon.in/Samsung-Galaxy-Storage-Additional-Exchange/dp/B07SBJZS5C/ref=sr_1_9?dchild=1&keywords=smartphones&qid=1606138906&refinements=p_n_feature_eight_browse-bin%3A8561114031%2Cp_n_feature_seven_browse-bin%3A8561132031%2Cp_89%3ASamsung&rnid=3837712031&s=electronics&sr=1-9","4.0","3GB","32GB","4000mAH","MediaTek MT6762 octa core processor");
