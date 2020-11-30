@@ -70,4 +70,40 @@ public class DataBaseAssist extends SQLiteOpenHelper {
         }
         return  cursor;
     }
+    //get All User Info
+    String []info(String username){
+        String sql="SELECT * FROM "+TABLE+" where username ='"+username+"'";
+        String []arr=new String[3];
+        SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
+        Cursor cursor=null;
+        if(sqLiteDatabase!=null){
+            cursor=sqLiteDatabase.rawQuery(sql,null);
+            if(cursor.moveToNext()){
+                arr[0]=cursor.getString(0);
+                arr[1]=cursor.getString(1);
+                arr[2]=cursor.getString(2);
+            }
+        }
+        return arr;
+    }
+    public Boolean deleteUser(String username){
+
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        long result=sqLiteDatabase.delete(TABLE,"username=?",new String[]{username});
+        if(result!=-1){
+            return true;
+        }
+        return false;
+    }
+    public Boolean upDateUser(String username,String email,String pass){
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(EMAIL,email);
+        contentValues.put(PASSWORD,pass);
+        long result=sqLiteDatabase.update(TABLE,contentValues,"username=?",new String[]{username});
+        if(result!=-1){
+            return true;
+        }
+        return false;
+    }
 }

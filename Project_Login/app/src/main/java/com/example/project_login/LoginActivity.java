@@ -90,7 +90,9 @@ public class LoginActivity extends AppCompatActivity {
             if(dataBaseAssist.checkCurrentUser(user).moveToNext()){
                 if (dataBaseAssist.authUser(user,password).moveToNext()){
                     Toast.makeText(LoginActivity.this,"Okay !",Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(getApplicationContext(),SelectPhone.class));
+                    Intent intent=new Intent(LoginActivity.this,SelectPhone.class);
+                    intent.putExtra("username",user);
+                    startActivity(intent);
                     //Checks if the Remember Me Check Box is checked if the Remember Me
                     if(rememberMe.isChecked()){
                         sharedPreferencesEditor.putBoolean("saveLogin",true);
