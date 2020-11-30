@@ -9,8 +9,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+/*
+* This class is concerned with Showing the profile information of the logged in user
+* The Username EditText is uneditable as it is the primary key
+* The Email and Password is Editable and can be updated, using the Username.
+* The current class has two ActionListeners for Update and Delete Button Respectively, which invokes the upDateUser function of the database and The
+* delUser function of the DatabaseAssist class
+* */
 public class Profile extends AppCompatActivity {
+    //The EditText of the Username, Email and Password
     EditText username,email,password;
     Button delBtn,upBtn;
     String name,emailStr,pass;
@@ -50,7 +57,7 @@ public class Profile extends AppCompatActivity {
         upBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(dataBaseAssist.upDateUser(name,emailStr,pass)){
+                if(dataBaseAssist.upDateUser(name,email.getText().toString(),password.getText().toString())){
                     Toast.makeText(getApplicationContext(),"User Credentials Updated !",Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(Profile.this,LoginActivity.class));
                 }

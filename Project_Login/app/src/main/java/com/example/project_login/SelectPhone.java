@@ -48,6 +48,8 @@ public class SelectPhone extends AppCompatActivity {
         ramRadioGroup=findViewById(R.id.radioGroupRAm);
         userDatabase=new DataBaseAssist(SelectPhone.this);
         if(getIntent().getStringExtra("username")!=null){
+            //Getting the Username From The LoginActivity Class, using the PutExtra Feature
+            //This is used to fetch the data from te database related to th user
                 username=getIntent().getStringExtra("username");
         }
 
@@ -93,6 +95,7 @@ public class SelectPhone extends AppCompatActivity {
 
             }
         });
+        //Phones Offered By The app
         phones=new String[]{"Samsung","Oppo","Vivo","One Plus","Redmi","Show All"};
         //Initailisign The ArrayAdapter
         arrayAdapterForPhones=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,phones);
@@ -133,9 +136,11 @@ public class SelectPhone extends AppCompatActivity {
                         else if(twel.isChecked()){
                             selectRam=twel.getText().toString();
                         }
-
+                //The Infromation required to display the data in recycler view is passed via intent
+                //The price and phone name are required parameters
+                //ROM and RAM are Optional Params
                 Intent intent=new Intent(SelectPhone.this,ListView.class);
-                //Passing The Intend Values to The PhoneDetails Class so that We Can Use the Phone make and price Information to Segregate The Dat from the Database !
+                //Passing The Intend Values to The PhoneDetails Class so that We Can Use the Phone make and price Information to Segregate The Data from the Database !
                 intent.putExtra("make",spinnerPhoneSelect.getSelectedItem().toString());
                 intent.putExtra("price",price);
                 intent.putExtra("ram",selectRam);
