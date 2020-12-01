@@ -22,6 +22,7 @@ public class Profile extends AppCompatActivity {
     Button delBtn,upBtn;
     String name,emailStr,pass;
     DataBaseAssist dataBaseAssist;
+    String changed=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +47,11 @@ public class Profile extends AppCompatActivity {
             public void onClick(View v) {
                 if(dataBaseAssist.deleteUser(name)){
                     Toast.makeText(getApplicationContext(),"User Deleted ! Please Log In",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(Profile.this,LoginActivity.class));
+                    Intent intent=new Intent(Profile.this,LoginActivity.class);
+                    changed="changed";
+                    intent.putExtra("status",changed);
+                    startActivity(intent);
+
                 }
                 else
                 {
@@ -59,7 +64,10 @@ public class Profile extends AppCompatActivity {
             public void onClick(View v) {
                 if(dataBaseAssist.upDateUser(name,email.getText().toString(),password.getText().toString())){
                     Toast.makeText(getApplicationContext(),"User Credentials Updated !",Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(Profile.this,LoginActivity.class));
+                    Intent intent=new Intent(Profile.this,LoginActivity.class);
+                    changed="changed";
+                    intent.putExtra("status",changed);
+                    startActivity(intent);
                 }
                 else {
                     Toast.makeText(getApplicationContext(),"Updation Failed !",Toast.LENGTH_SHORT).show();
@@ -67,4 +75,6 @@ public class Profile extends AppCompatActivity {
             }
         });
     }
+
+
 }

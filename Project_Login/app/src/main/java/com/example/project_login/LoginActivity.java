@@ -25,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     Boolean savedLogin;
     CheckBox rememberMe;
     InternetConnectivityCheck internetConnectivityCheck;
+    private long timePressed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,5 +116,19 @@ public class LoginActivity extends AppCompatActivity {
         }else {
             Toast.makeText(getApplicationContext(),"Fields Cannot Be Left Blank !",Toast.LENGTH_LONG).show();
         }
+    }
+    //This function is invokes when the user presses the back button, and intent is passed from the profile activity to current activity !
+    @Override
+    public void onBackPressed() {
+        //If the Intent Status is not null, then if the user presses the Back button twice the App prompts to Exit and On Second Touch,We Move To the Background !
+       if(getIntent().getStringExtra("status")!=null){
+           if(timePressed+2000>System.currentTimeMillis()){
+             moveTaskToBack(true);
+           }
+         else {
+             Toast.makeText(getBaseContext(),"Press Again To Exit !",Toast.LENGTH_SHORT).show();
+           }
+        timePressed=System.currentTimeMillis();
+       }
     }
 }
