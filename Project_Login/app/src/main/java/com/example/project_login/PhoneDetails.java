@@ -100,8 +100,9 @@ public class PhoneDetails extends AppCompatActivity {
         MenuItem shareItem = menu.findItem(R.id.share);
         shareActionProvider=(ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
         Intent intentShareLink = new Intent(Intent.ACTION_SEND);
-        intentShareLink.setType("text/plain ");
-        intentShareLink.putExtra(Intent.ACTION_PROCESS_TEXT,"Buy The Latest Samrtphone "+buyLink+" Exclusively From Phonespot and Get 35% Off");
+        intentShareLink.setType("text/plain");
+        //Sending the Name of The Phone and Its Buy Link !
+        intentShareLink.putExtra(Intent.EXTRA_TEXT,"Buy The Latest "+name.getText().toString()+" Using this Link :"+buyLink+" Exclusively From Phonespot and Get 35% Off");
         shareActionProvider.setShareIntent(intentShareLink);
         return true;
     }
