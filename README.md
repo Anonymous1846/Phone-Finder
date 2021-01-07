@@ -1,7 +1,8 @@
 # Phone-Finder
-Phonespot aka, the Phone Finder is simple Android application, used to help Naive users to find the smartphones of their choice.
+Phonespot aka, the Phone Finder is a simple Android application, used to help Naive users to find the smartphones of their choice.
 The Application primarily uses Sqlite Database to store the phone details and the user login details.<br>
 The Phone Details were scrapped earlier , using the Web scraper from chrome.<br>
+The users can choose between smartphones, on the basis of their make, price, RAM and ROM size.
 Some Notable Features include:
 <ul>
   <li>Sign Up</li>
